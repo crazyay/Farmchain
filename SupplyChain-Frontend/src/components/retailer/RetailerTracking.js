@@ -5,7 +5,7 @@ import RightTimelineCard from '../../utils/RightTimelineCard';
 import SubNav from '../../utils/SubNav';
 import { useSelector } from 'react-redux';
 import { ethers } from 'ethers';
-import Payment from '../../../src/artifacts/contracts/Payment.sol/Payment.json'
+import Payment from '../../contracts/Payment.sol';
 import '../../css/trackstatus.css'
 import axios from 'axios';
 

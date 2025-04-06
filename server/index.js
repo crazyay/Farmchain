@@ -13,11 +13,12 @@ const db = mysql.createConnection({
 app.post("/authentication", (req, res) => {
   const userAccount = req.body.userAccount;
   console.log(userAccount, "idr to dekho");
+  
   db.query(
     "SELECT * FROM users WHERE public_key = ? && role_status != ?",
     [userAccount, "pending"],
     (err, result) => {
-      if (result.length > 0) {
+      if (result?.length > 0) {
         res.send(result[0].role);
       } else {
         res.send("Register yourself or wait for approval");
@@ -36,7 +37,7 @@ app.post("/microfinance", (req, res) => {
     [id, "paid"],
     (err, result) => {
       console.log(result);
-      if (result.length === 0) {
+      if (result?.length === 0) {
         db.query(
           "INSERT INTO loan (user,crop_name,quantity,exp_price,yield_date,holding,amount,status,days_left) VALUES(?,?,?,?,?,?,?,?,?)",
           [id, name, quantity, price, dates, 0, 0, "open", dates],
@@ -64,7 +65,7 @@ app.post("/registration", (req, res) => {
     "SELECT * FROM users WHERE public_key = ?",
     [userAccount],
     (err, result) => {
-      if (result.length > 0) {
+      if (result?.length > 0) {
         res.send("User id already exists");
       } else {
         db.query(
@@ -95,7 +96,7 @@ app.post("/offer/:idd", (req, res) => {
     "SELECT * FROM offers WHERE buyer = ? && crop_id = ?",
     [userAccount, id],
     (err, result) => {
-      if (result.length == 0) {
+      if (result?.length == 0) {
         db.query(
           "INSERT INTO offers (buyer,seller,price,crop_id,crop_name,quantity,bid_price,status) VALUES(?,?,?,?,?,?,?,?)",
           [userAccount, seller, price, id, crop, quantity, priceC, "open"],

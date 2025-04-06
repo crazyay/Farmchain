@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ethers } from "ethers";
-import Payment from '../../../src/artifacts/contracts/Payment.sol/Payment.json';
+import Payment from '../../contracts/Payment.sol';
 
 function Admin() {
   const [open, setOpen] = useState(false);

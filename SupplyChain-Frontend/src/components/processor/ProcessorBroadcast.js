@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { dbActions } from "../../store/dbSlice";
 import { useNavigate } from "react-router-dom";
-import Payment from "../../../src/artifacts/contracts/Payment.sol/Payment.json";
+import Payment from '../../contracts/Payment.sol';
 import { ethers } from "ethers";
 import { Logger } from "ethers/lib/utils";
 
