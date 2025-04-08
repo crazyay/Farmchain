@@ -1,4 +1,21 @@
 {
     "editor.formatOnPaste": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "xprotocol",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 33060,
+            "driver": "MySQL",
+            "name": "saurabh",
+            "database": "demo",
+            "username": "saurabh",
+            "password": "saurabh1223",
+            "connectionTimeout": 20
+        }
+    ]
 }

@@ -44,7 +44,8 @@ function Welcome() {
           method: "eth_requestAccounts",
         });
         setUserAccount(accounts[0]);
-
+        console.log(accounts[0]);
+        
         Axios.post("http://localhost:3001/authentication", {
           userAccount: accounts[0],
         }).then((resp) => {
@@ -57,7 +58,11 @@ function Welcome() {
             resp.data != "admin" &&
             resp.data != "qualitychecker"
           ) {
-            alert("Register yourself or wait for approval from admin");
+            console.log(resp.data);
+            
+            dispatch(dbActions.role(resp.data));
+            navigate(`${resp.data}`);
+            // alert("Register yourself or wait for - approval from admin");
           } else {
             dispatch(dbActions.role(resp.data));
             navigate(`${resp.data}`);
