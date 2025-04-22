@@ -9,7 +9,8 @@ function CustomerDashboard() {
 
   const id = useSelector((state) => state.db.userAcc);
   const [result, setResult] = useState([]);
-
+   console.log("dashboard consumer" ,id);
+   
   useEffect(() => {
     axios.get(`http://localhost:3001/getUser/${id}`)
       .then((response) => {

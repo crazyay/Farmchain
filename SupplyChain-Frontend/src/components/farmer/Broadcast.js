@@ -25,6 +25,7 @@ function Broadcast() {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log("broadcast");
     Axios.post("http://localhost:3001/farmerbrodcast", {
       crop: crop,
       quantity: quantity,
