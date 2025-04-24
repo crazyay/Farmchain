@@ -23,11 +23,18 @@ function ProcessorRequestCard(props) {
   };
 
   const insureHandler = async (e) => {
+    
     if (typeof window.ethereum !== "undefined" && acc != "") {
+      
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
+      console.log(signer);
+      
       const contract = new ethers.Contract(paymentAddress, Payment.abi, signer);
+   
       const id = crop_id;
+      console.log(id,"processor", contract,"sign" ,signer);
+      
       const data = await contract.updateStatus(id);
       console.log(data);
 
@@ -41,6 +48,9 @@ function ProcessorRequestCard(props) {
           alert(resp.data);
         });
       dispatch(dbActions.reload());
+    }else{
+     
+      
     }
   };
   return (
@@ -49,7 +59,7 @@ function ProcessorRequestCard(props) {
         <div className="card-header p-3 pt-2">
           <div className="text-end pt-1">
             <p className="display-7 mb-0 text-capitalize font-weight-bolder">
-              Crop : {crop}
+              Crop : {crop}   
             </p>
           </div>
         </div>
@@ -106,3 +116,131 @@ function ProcessorRequestCard(props) {
 }
 
 export default ProcessorRequestCard;
+
+
+
+// import React, { useState } from 'react';
+// import { ethers } from 'ethers';
+// import { useSelector } from 'react-redux';
+// import axios from 'axios';
+
+// function InsuranceProcessor({ crop, processor, quantity, price, id, cropId }) {
+//     const [loading, setLoading] = useState(false);
+//     const [step, setStep] = useState(1);
+//     const [txHash, setTxHash] = useState('');
+//     const userAddress = useSelector(state => state.db.userAcc);
+//     const contractAddress = useSelector(state => state.db.address);
+
+//     const handleInsure = async () => {
+//         if (!userAddress) {
+//             alert('Please connect your wallet');
+//             return;
+//         }
+
+//         setLoading(true);
+        
+//         try {
+//             // 1. Create initial insurance record
+//             const premium = calculatePremium(quantity, price);
+//             const coverage = calculateCoverage(quantity, price);
+            
+//             const { data } = await axios.post('/api/insure', {
+//                 cropId,
+//                 cropName: crop,
+//                 quantity,
+//                 premiumAmount: premium,
+//                 coverageAmount: coverage,
+//                 userAddress
+//             });
+            
+//             if (!data.success) throw new Error(data.message);
+            
+//             setStep(2); // Move to blockchain transaction step
+            
+//             // 2. Execute blockchain transaction
+//             const provider = new ethers.providers.Web3Provider(window.ethereum);
+//             const signer = provider.getSigner();
+//             const contract = new ethers.Contract(
+//                 contractAddress, 
+//                 CropInsurance.abi, 
+//                 signer
+//             );
+            
+//             const tx = await contract.createInsurancePolicy(
+//                 cropId,
+//                 crop,
+//                 quantity,
+//                 ethers.utils.parseEther(premium.toString()),
+//                 ethers.utils.parseEther(coverage.toString()),
+//                 { value: ethers.utils.parseEther(premium.toString()) }
+//             );
+            
+//             setTxHash(tx.hash);
+//             setStep(3); // Move to confirmation step
+            
+//             // 3. Wait for transaction confirmation
+//             await tx.wait();
+            
+//             // 4. Finalize insurance
+//             await axios.put(`/api/insure/${cropId}/finalize`, { txHash: tx.hash });
+            
+//             alert('Insurance process completed successfully!');
+//             setStep(1);
+//         } catch (error) {
+//             console.error('Insurance failed:', error);
+//             alert(`Insurance failed: ${error.message}`);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     const calculatePremium = (qty, price) => {
+//         // 5% of crop value as premium
+//         return (qty * price) * 0.05;
+//     };
+
+//     const calculateCoverage = (qty, price) => {
+//         // 80% of crop value as coverage
+//         return (qty * price) * 0.8;
+//     };
+
+//     return (
+//         <div className="insurance-card">
+//             {/* Step 1: Initial information */}
+//             {step === 1 && (
+//                 <div className="step-1">
+//                     <h3>Insure {crop}</h3>
+//                     <p>Processor: {processor}</p>
+//                     <p>Quantity: {quantity} kg</p>
+//                     <p>Price: ₹{price} per kg</p>
+//                     <button 
+//                         onClick={handleInsure}
+//                         disabled={loading}
+//                     >
+//                         {loading ? 'Processing...' : 'Start Insurance'}
+//                     </button>
+//                 </div>
+//             )}
+            
+//             {/* Step 2: Blockchain transaction */}
+//             {step === 2 && (
+//                 <div className="step-2">
+//                     <h3>Confirm Transaction</h3>
+//                     <p>Please confirm the transaction in your wallet</p>
+//                     <div className="loading-spinner"></div>
+//                 </div>
+//             )}
+            
+//             {/* Step 3: Confirmation */}
+//             {step === 3 && (
+//                 <div className="step-3">
+//                     <h3>Transaction Submitted</h3>
+//                     <p>Transaction Hash: {txHash.substring(0, 12)}...{txHash.substring(txHash.length - 4)}</p>
+//                     <p>Waiting for confirmation...</p>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// }
+
+// export default InsuranceProcessor;

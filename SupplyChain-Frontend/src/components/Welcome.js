@@ -100,6 +100,11 @@ function Welcome() {
         {/* Orange banner */}
         <section className="section gradient-banner">
           <div className="shapes-container">
+          <div  className="absolute w-32 z-10 border-2 bg-black rounded-md border-black h-4 font-bold overflow-hidden relative z-50 top-2 sm:right-10 ">
+            <GoogleTranslator />
+            <div className="w-8 h-4 bg-black"></div>
+          </div>
+            
             <div className="shape"></div>
             <div className="shape"></div>
             <div className="shape"></div>
@@ -120,9 +125,7 @@ function Welcome() {
           <div className="container">
             <div className="idr row align-items-center">
               <div className="col-md-6 order-2 order-md-1 text-center text-md-left">
-                <h1 className="text-white font-weight-bold mb-4">
-                 FarmChain
-                </h1>
+                <h1 className="text-white font-weight-bold mb-4">FarmChain</h1>
                 <p className="text-white mb-5">
                   {" "}
                   The website designed for farmers to provide full end to end solution

@@ -31,14 +31,15 @@ db.on("error", (err) => {
 app.post("/authentication", (req, res) => {``
   const userAccount = req.body.userAccount;
   console.log(userAccount, "idr to dekho");
-  
-  res.send("farmer");  
-  return 
+  res.send("processor");
+  return
   db.query(
     "SELECT * FROM users WHERE id = ? && role_status != ?",
     [2, 'pending'],
     (err, result) => {
-      if (result.length > 0) {
+      console.log(result, "------==========--------");
+      
+      if (result?.length > 0) {
         res.send(result[0].role);
       } else {
         res.send("Register -------------------------------------- yourself or wait for approval");
@@ -137,6 +138,8 @@ app.post("/farmerbrodcast", (req, res) => {
   const crop = req.body.crop;
   const quantity = req.body.quantity;
   const price = req.body.price;
+  console.log(userAccount);
+  
   db.query(
     "INSERT INTO farmer_brodcast (public_key,crop,quantity,price,status) VALUES(?,?,?,?,?)",
     [userAccount, crop, quantity, price, "open"],
@@ -551,11 +554,14 @@ app.get("/farmerbrodcastcallprocessor", (req, res) => {
   );
 });
 app.get("/reailerBrodcasts/:id", (req, res) => {
+
   db.query(
     "SELECT * FROM customer WHERE  status = ? ORDER BY id DESC",
     ["open"],
 
     (err, result) => {
+      console.log();
+      
       if (result) {
         res.send(result);
       } else {
@@ -572,7 +578,7 @@ app.get("/checkAvailability/:id/:quantity", (req, res) => {
     [id, "open", quantity],
 
     (err, result) => {
-      if (result.length > 0) {
+      if (result?.length > 0) {
         res.send(result);
       } else {
         res.send({
