@@ -17,6 +17,7 @@ import { ethers } from "ethers";
 import Axios from "axios";
 import { dbActions } from "../store/dbSlice";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleTranslator from "./GoogleTraslator";
 
 function Welcome() {
   const [userAccount, setUserAccount] = useState("");
@@ -44,7 +45,8 @@ function Welcome() {
           method: "eth_requestAccounts",
         });
         setUserAccount(accounts[0]);
-
+        console.log(accounts[0]);
+        navigate("/farmer");
         Axios.post("http://localhost:3001/authentication", {
           userAccount: accounts[0],
         }).then((resp) => {
@@ -57,7 +59,11 @@ function Welcome() {
             resp.data != "admin" &&
             resp.data != "qualitychecker"
           ) {
-            alert("Register yourself or wait for approval from admin");
+            console.log(resp.data);
+            
+            dispatch(dbActions.role(resp.data));
+            navigate(`${resp.data}`);
+            // alert("Register yourself or wait for - approval from admin");
           } else {
             dispatch(dbActions.role(resp.data));
             navigate(`${resp.data}`);
@@ -90,6 +96,7 @@ function Welcome() {
         data-spy="scroll"
         data-target=".privacy-nav"
       >
+      <GoogleTranslator/>
         {/* Orange banner */}
         <section className="section gradient-banner">
           <div className="shapes-container">
@@ -118,7 +125,7 @@ function Welcome() {
                 </h1>
                 <p className="text-white mb-5">
                   {" "}
-                  DApp designed for farmers to provide full end to end solution
+                  The website designed for farmers to provide full end to end solution
                   which will help to produce and sell yields at a good rate
                 </p>
                 <div>

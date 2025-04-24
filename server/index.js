@@ -1,28 +1,47 @@
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 const db = mysql.createConnection({
   user: "root",
   host: "localhost",
-  password: "",
+  password: "Saurabh123",
   database: "supplychain",
 });
-app.post("/authentication", (req, res) => {
+db.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MySQL:", err);
+    return;
+  }
+  console.log("Connected to MySQL database");
+});
+
+// Handle connection errors that occur after initial connection
+db.on("error", (err) => {
+  console.error("MySQL connection error:", err);
+  if (err.code === "PROTOCOL_CONNECTION_LOST") {
+    // Reconnect if connection is lost
+    db.connect();
+  } else {
+    throw err;
+  }
+});
+app.post("/authentication", (req, res) => {``
   const userAccount = req.body.userAccount;
   console.log(userAccount, "idr to dekho");
-  res.send("ok");
-  return; 
+  
+  res.send("farmer");  
+  return 
   db.query(
-    "SELECT * FROM users WHERE public_key = ? && role_status != ?",
-    [userAccount, "pending"],
+    "SELECT * FROM users WHERE id = ? && role_status != ?",
+    [2, 'pending'],
     (err, result) => {
-      if (result?.length > 0) {
+      if (result.length > 0) {
         res.send(result[0].role);
       } else {
-        res.send("Register yourself or wait for approval");
+        res.send("Register -------------------------------------- yourself or wait for approval");
       }
     }
   );
@@ -97,7 +116,7 @@ app.post("/offer/:idd", (req, res) => {
     "SELECT * FROM offers WHERE buyer = ? && crop_id = ?",
     [userAccount, id],
     (err, result) => {
-      if (result.length == 0) {
+      if (result?.length == 0) {
         db.query(
           "INSERT INTO offers (buyer,seller,price,crop_id,crop_name,quantity,bid_price,status) VALUES(?,?,?,?,?,?,?,?)",
           [userAccount, seller, price, id, crop, quantity, priceC, "open"],
@@ -235,7 +254,7 @@ app.get("/retailerBrodcast", (req, res) => {
         res.send(false);
       }
     }
-  );
+  );  
 });
 app.get("/loanRequest", (req, res) => {
   db.query("SELECT * FROM loan WHERE status = ?", ["open"], (err, result) => {

@@ -6,7 +6,7 @@ import SubNav from '../../utils/SubNav';
 import { useSelector } from 'react-redux';
 import { ethers } from 'ethers';
 import '../../css/trackstatus.css';
-import Payment from '../../../src/artifacts/contracts/Payment.sol/Payment.json';
+import Payment from '../../contracts/Payment.sol';
 import axios from 'axios';
 
 function CustomerTracking() {

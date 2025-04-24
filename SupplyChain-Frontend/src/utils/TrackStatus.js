@@ -4,7 +4,7 @@ import Sidebar from "../components/farmer/Sidebar";
 import "../css/bootstrap.css";
 import LeftTimelineCard from "./LeftTimelineCard";
 import RightTimelineCard from "./RightTimelineCard";
-import Payment from "../../src/artifacts/contracts/Payment.sol/Payment.json";
+import Payment from '../contracts/Payment.sol';
 import { ethers } from "ethers";
 import { useSelector } from "react-redux";
 import '../css/trackstatus.css'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Payment from "../../../src/artifacts/contracts/Payment.sol/Payment.json";
+import Payment from '../../contracts/Payment.sol';
 import { ethers } from "ethers";
 import { Logger } from "ethers/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
